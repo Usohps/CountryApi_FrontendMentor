@@ -9,8 +9,8 @@ export default function Details({
 }) {
   return (
     <Link to={`/${name.common}`}>
-      <div className=" ">
-        <article className="shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+      <div className="">
+        <article className=" w-full shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
           <img
             src={flags.svg}
             className="w-screen h-64 object-cover rounded-t-lg"

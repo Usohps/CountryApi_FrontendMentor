@@ -26,8 +26,6 @@ function Home() {
   ];
   const [countries, setCountries] = useState([]);
   const [userInput, setUserInput] = useState("");
-  const [error, setError] = useState(false);
-  const [errorMsg , setErrorMsg]= useState("")
   useEffect(() => {
     const getcountries = async () => {
       try {
@@ -41,26 +39,45 @@ function Home() {
     getcountries();
   }, []);
 
+  // async function searchCountry() {
+  //   try {
+  //     const res = await fetch(
+  //       `https://restcountries.com/v3.1/name/${userInput}`
+  //     );
+  //     const data = await res.json();
+  //     setCountries(data);
+  //   } catch (error) {
+      
+  //   }
+  // }
+
   async function searchCountry() {
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/name/${userInput}`
-      );
-      const data = await res.json();
-      if (data.message) {
-        setErrorMsg(data.message);
-        console.log(data.message);
-        console.log(error);
-        console.log(errorMsg)
-      }
-      setCountries(data);
-      console.log(errorMsg)
-      console.log(data.data);
-      console.log(countries);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+		try {
+			const res = await fetch(
+				`https://restcountries.com/v3.1/name/${userInput}`
+			);
+			const data = await res.json();
+			if (!data.message) {
+				setCountries(data);
+			}
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+
+  useEffect(() => {
+		const getcountries = async () => {
+			try {
+				const res = await fetch("https://restcountries.com/v3.1/all");
+				const data = await res.json();
+				setCountries(data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getcountries();
+	}, [userInput]);
+
 
   async function filterCountry(region) {
     try {
@@ -85,11 +102,6 @@ function Home() {
 
   return (
     <>
-      {error && (
-        <p role="alert" style={{ color: "rgb(255, 0, 0)" }}>
-          Please make sure you've entered a <em>valid country</em>
-        </p>
-      )}
       <div className="bg-gray-300">
         {!countries ? (
           <h1 className="font-bold uppercase text-gray-500 text-4xl h-screen flex items-center justify-center md:justify-between text-center tracking-wide">
@@ -98,7 +110,12 @@ function Home() {
         ) : (
           <section>
             <div className="flex flex-col md:flex-row md:items-center justify-between p-6 gap-4">
-              <form autoComplete="off" onSubmit={handlesearchInput}>
+              {/* {error && (
+                <h1 role="alert" className="font-bold">
+                  Please make sure you've entered a <em>valid country</em>
+                </h1>
+              )} */}
+              <form autoComplete="off" onChange={handlesearchInput}>
                 <input
                   type="text"
                   name="search"
@@ -107,10 +124,10 @@ function Home() {
                   onChange={(e) => setUserInput(e.target.value)}
                   placeholder="search for a country by name"
                   required
-                  className="w-64 px-4 py-2 rounded outline-none border-none shadow-xl"
+                  className="w-full md:w-64 px-4 py-2 rounded outline-none border-none shadow-xl"
                 />
               </form>
-              <form autoComplete="off" onSubmit={handleFilterbyRegion}>
+              <form autoComplete="off" onSubmit={handleFilterbyRegion} className="text-right my-6">
                 <select
                   name="filter-by-region"
                   id="filter-by-region"

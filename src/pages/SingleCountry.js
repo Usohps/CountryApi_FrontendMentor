@@ -17,28 +17,27 @@ export default function SingleCountry() {
     getSingleCountry();
   }, [name]);
   return (
-    <div>
-      <section className="py-8 md:py-0 max-w-7xl mx-auto bg-gray-200">
+    <>
+      <section className="bg-gray-200">
         {country.map((item) => (
           <div
             key={item.population}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 md:place-items-center h-screen"
+            className="grid grid-cols-1 md:grid-cols-2 md:gap-8 place-items-center h-screen"
           >
-            <article>
+            <div>
               <img src={item.flags.svg} className="h-64 rounded" alt="" />
-            </article>
-            <article>
-              <h1 className=" mb-8 font-bold text-gray-500  text-4xl">
+            </div>
+            <div className="container m-auto px-6 md:px-0">
+              <h1 className=" font-bold text-gray-500 text-4xl">
                 {item.name.official}
               </h1>
-              <ul className="flex flex-col items-start justify-start gap-2 text-slate-700 ">
+              <ul className="w-full border flex flex-col items-start justify-start gap-2 text-slate-700 ">
                 <li>Capital: {item.capital[0]}</li>
                 <li>Population: {item.population.toLocaleString()}</li>
                 <li>Region: {item.region}</li>
                 {item.subregion && <div>
                     <li>Subregion: {item.subregion}</li>
                     </div>}
-                {/* <li>Currency:{item.currency.}</li> */}
               </ul>
               {item.borders && (
                 <div>
@@ -52,10 +51,10 @@ export default function SingleCountry() {
               )}
 
               <Link to="/" className="inline-block py-2 px-6 rounded shadow text-gray mt-3">&larr; Back</Link>
-            </article>
+            </div>
           </div>
         ))}
       </section>
-    </div>
+    </>
   );
 }
