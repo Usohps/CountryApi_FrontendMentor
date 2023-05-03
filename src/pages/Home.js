@@ -47,37 +47,36 @@ function Home() {
   //     const data = await res.json();
   //     setCountries(data);
   //   } catch (error) {
-      
+
   //   }
   // }
 
   async function searchCountry() {
-		try {
-			const res = await fetch(
-				`https://restcountries.com/v3.1/name/${userInput}`
-			);
-			const data = await res.json();
-			if (!data.message) {
-				setCountries(data);
-			}
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
+    try {
+      const res = await fetch(
+        `https://restcountries.com/v3.1/name/${userInput}`
+      );
+      const data = await res.json();
+      if (!data.message) {
+        setCountries(data);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   useEffect(() => {
-		const getcountries = async () => {
-			try {
-				const res = await fetch("https://restcountries.com/v3.1/all");
-				const data = await res.json();
-				setCountries(data);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		getcountries();
-	}, [userInput]);
-
+    const getcountries = async () => {
+      try {
+        const res = await fetch("https://restcountries.com/v3.1/all");
+        const data = await res.json();
+        setCountries(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getcountries();
+  }, [userInput]);
 
   async function filterCountry(region) {
     try {
@@ -109,12 +108,7 @@ function Home() {
           </h1>
         ) : (
           <section>
-            <div className="flex flex-col md:flex-row md:items-center justify-between p-6 gap-4">
-              {/* {error && (
-                <h1 role="alert" className="font-bold">
-                  Please make sure you've entered a <em>valid country</em>
-                </h1>
-              )} */}
+            <div className="w-full bg-gray-200 fixed top-0 flex flex-col md:flex-row md:items-center justify-between p-2 md:p-0 md:px-4 md:gap-4 border">
               <form autoComplete="off" onChange={handlesearchInput}>
                 <input
                   type="text"
@@ -127,13 +121,17 @@ function Home() {
                   className="w-full md:w-64 px-4 py-2 rounded outline-none border-none shadow-xl"
                 />
               </form>
-              <form autoComplete="off" onSubmit={handleFilterbyRegion} className="text-right my-6">
+              <form
+                autoComplete="off"
+                onSubmit={handleFilterbyRegion}
+                className="text-right my-6"
+              >
                 <select
                   name="filter-by-region"
                   id="filter-by-region"
                   value={regions.name}
                   onChange={(e) => filterCountry(e.target.value)}
-                  className="w-52 py-3 px-6 outline-none shadow-xl rounded text-gray-600"
+                  className="w-52 py-2 px-6 outline-none shadow-xl rounded text-gray-600"
                 >
                   {regions.map((region, index) => (
                     <option
@@ -147,7 +145,7 @@ function Home() {
                 </select>
               </form>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 place-items-center p-4">
+            <div className="pt-32 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 place-items-center p-4">
               {countries.map((country) => (
                 <Details key={country.name.common} {...country} />
               ))}
